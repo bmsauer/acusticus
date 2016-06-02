@@ -1,0 +1,36 @@
+<project name="acustic.us" default="compile" basedir=".">
+  <description>
+    Build file for acustic.us
+  </description>
+  
+  <!-- set global properties for this build -->
+  <property name="src" location="src"/>
+  <property name="build" location="WEB-INF/classes"/>
+  <property name="dist" location="dist"/>
+  <property name="lib" location="WEB-INF/lib"/>
+  <property name="local-tomcat" location="/var/lib/tomcat7/webapps/acusticus"/>
+  
+  <target name="init">
+    <tstamp/>
+    <mkdir dir="${build}"/>
+  </target>
+
+  <target name="compile" depends="init" description="compile the source">
+    <echo message="${lib}/stripes-1.6.0.jar"/>
+    <javac srcdir="${src}" destdir="${build}">
+      <classpath>
+	<pathelement location="${lib}/commons-logging-1.1.3.jar"/>
+	<pathelement location="${lib}/stripes-1.6.0.jar"/>
+	<pathelement location="${lib}/cos-05Nov2002.jar"/>
+	<pathelement location="lib/log4j-1.2.17.jar"/>
+      </classpath>
+    </javac>
+    
+  </target>
+
+  <target name="dist-local" depends="compile" description="Copy the application to tomcat">
+    <mkdir dir="${local-tomcat}"/>
+    <copydir src="." dest="${local-tomcat}" />
+  </target>
+
+</project>
