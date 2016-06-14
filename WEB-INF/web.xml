@@ -15,6 +15,10 @@
             <!--<param-value>net.sourceforge.stripes.examples</param-value>-->
 	    <param-value>net.sauertek.acusticus.web</param-value>
         </init-param>
+	<init-param>
+	  <param-name>ActionResolver.Class</param-name>
+	  <param-value>net.sauertek.acusticus.ext.AcusticusActionResolver</param-value>
+	</init-param>
     </filter>
 
     <servlet>
@@ -36,8 +40,13 @@
 	<dispatcher>FORWARD</dispatcher>
     </filter-mapping>
  
-    <servlet-mapping>
+    <!--<servlet-mapping>
         <servlet-name>StripesDispatcher</servlet-name>
         <url-pattern>*.action</url-pattern>
+	</servlet-mapping>-->
+    <servlet-mapping>
+      <servlet-name>StripesDispatcher</servlet-name>
+      <url-pattern>/api/*</url-pattern>
     </servlet-mapping>
+      
 </web-app> 
