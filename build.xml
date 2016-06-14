@@ -12,6 +12,7 @@
   
   <target name="init">
     <tstamp/>
+    <delete dir="${build}/net" />
     <mkdir dir="${build}"/>
   </target>
 
