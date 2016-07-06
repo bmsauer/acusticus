@@ -1,4 +1,4 @@
-<project name="acustic.us" default="compile" basedir=".">
+<project name="acustic.us" default="compile" basedir="." xmlns:ivy="antlib:org.apache.ivy.ant">
   <description>
     Build file for acustic.us
   </description>
@@ -8,7 +8,13 @@
   <property name="build" location="WEB-INF/classes"/>
   <property name="dist" location="dist"/>
   <property name="lib" location="WEB-INF/lib"/>
+  <property name="ivylib" location="WEB-INF/ivylib"/>
   <property name="local-tomcat" location="/var/lib/tomcat7/webapps/acusticus"/>
+  
+  <target name="dependencies" depends="init" description="load dependencies with ivy">
+    <ivy:resolve />
+    <ivy:retrieve sync="true" type="jar,bundle" pattern="${ivylib}/[artifact]-[revision].[ext]" />
+  </target>
   
   <target name="init">
     <tstamp/>
@@ -16,15 +22,15 @@
     <mkdir dir="${build}"/>
   </target>
 
-  <target name="compile" depends="init" description="compile the source">
-    <echo message="${lib}/stripes-1.6.0.jar"/>
+  <target name="compile" depends="dependencies" description="compile the source">
     <javac srcdir="${src}" destdir="${build}">
       <classpath>
-	<pathelement location="${lib}/commons-logging-1.1.3.jar"/>
-	<pathelement location="${lib}/stripes-1.6.0.jar"/>
-	<pathelement location="${lib}/cos-05Nov2002.jar"/>
-	<pathelement location="lib/log4j-1.2.17.jar"/>
-	<pathelement location="/usr/share/tomcat7/lib/servlet-api.jar" />
+	<fileset dir="${lib}">
+	  <include name="*.jar" />
+	</fileset>
+	<fileset dir="${ivylib}">
+          <include name="*.jar"/>
+	</fileset>
       </classpath>
     </javac>
     
