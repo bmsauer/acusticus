@@ -10,6 +10,7 @@
   <property name="lib" location="WEB-INF/lib"/>
   <property name="ivylib" location="WEB-INF/ivylib"/>
   <property name="local-tomcat" location="/var/lib/tomcat7/webapps/acusticus"/>
+  <property environment="env"/>
   
   <target name="dependencies" depends="init" description="load dependencies with ivy">
     <ivy:resolve />
@@ -38,7 +39,10 @@
 
   <target name="dist-local" depends="compile" description="Copy the application to tomcat">
     <mkdir dir="${local-tomcat}"/>
-    <copydir src="." dest="${local-tomcat}" />
+    <!--<copydir src="." dest="${local-tomcat}" />-->
+    <exec executable="sudo" inputstring="${env.SUDO_PWD}">
+       <arg line="-S cp -r ./ ${local-tomcat}" />
+    </exec>
   </target>
 
 </project>
