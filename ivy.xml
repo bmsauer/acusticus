@@ -7,5 +7,6 @@
  <dependencies>
    <dependency org="com.googlecode.json-simple" name="json-simple" rev="1.1.1"/>
    <dependency org="javax.servlet" name="javax.servlet-api" rev="3.1.0"/>
+   <dependency org="redis.clients" name="jedis" rev="2.8.0" />
  </dependencies>
 </ivy-module>
