@@ -7,6 +7,8 @@ import net.sourceforge.stripes.action.StreamingResolution;
 import net.sourceforge.stripes.action.ActionBean;
 import net.sourceforge.stripes.action.ActionBeanContext;
 import net.sourceforge.stripes.action.UrlBinding;
+
+import net.sauertek.acusticus.settings.Settings;
  
 /**
 * Acustic.us API
@@ -23,11 +25,13 @@ public class AcusticusAPIActionBean implements ActionBean {
     private int id;
     public int getId(){ return id; }
     public void setId(int i){ this.id = i; }
+    //misc
+    private Settings settings = Settings.getInstance();
 
     //handlers
     @DefaultHandler
     public Resolution version(){
-    	return new StreamingResolution("application/json", "{'name':'acusticus', 'version': '" + Integer.toString(getId()) + "'}");
+    	return new StreamingResolution("application/json", "{'name':'acusticus', 'version': '" + settings.VERSION + "'}");
     }
 
     public Resolution record(){

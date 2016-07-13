@@ -2,3 +2,4 @@
 dev/*
 WEB-INF/classes
 WEB-INF/ivylib
+*.env
