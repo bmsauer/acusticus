@@ -1,6 +1,7 @@
 *~
 dev/*
 WEB-INF/classes
-WEB-INF/ivylib
+WEB-INF/lib
 *.env
 *.ini
+*.war

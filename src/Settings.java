@@ -1,10 +1,13 @@
 package net.sauertek.acusticus.settings;
+import org.ini4j.Wini;
+import java.io.File;
+import java.io.IOException;
 
 import java.lang.IllegalStateException;
 
 public class Settings {
-    public static final String VERSION = System.getenv("ACUSTICUS_VERSION");
-    public static final String REDIS_HOST = System.getenv("ACUSTICUS_REDIS_HOST");
+    public String VERSION;
+    public String REDIS_HOST;
     
     private static Settings singleton = new Settings();
 
@@ -13,13 +16,16 @@ public class Settings {
     }
     
     private Settings(){
-	if(REDIS_HOST == null){
-	    throw new IllegalStateException("ACUSTICUS_REDIS_HOST not set.");
+	try{
+	    Wini ini = new Wini(new File("WEB-INF/config/config.ini"));
+	    REDIS_HOST = ini.get("acusticus", "REDIS_HOST", String.class);
+	    VERSION = ini.get("acusticus", "VERSION", String.class);
 	}
-	if(VERSION == null){
-	    throw new IllegalStateException("ACUSTICUS_VERSION not set.");
-	}
-	
+	catch(IOException e){
+	    System.out.println("Failed to load configuration file.");
+	    REDIS_HOST="localhost";
+	    VERSION="1.0";
+	    }
     }
  
     

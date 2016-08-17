@@ -5,8 +5,11 @@
  <info organisation="net.sauertek" module="acustic.us" status="integration">
  </info>
  <dependencies>
+   <dependency org="net.sourceforge.stripes" name="stripes" rev="1.6.0">
+     <exclude org="org.springframework"/>
+   </dependency>
    <dependency org="com.googlecode.json-simple" name="json-simple" rev="1.1.1"/>
-   <dependency org="javax.servlet" name="javax.servlet-api" rev="3.1.0"/>
    <dependency org="redis.clients" name="jedis" rev="2.8.0" />
+   <dependency org="org.ini4j" name="ini4j" rev="0.5.4"/>
  </dependencies>
 </ivy-module>

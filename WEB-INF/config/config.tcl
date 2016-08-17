@@ -1,3 +1,4 @@
+#!/usr/bin/env tclsh
 package require Tcl 8.5
 package require inifile 0.3
 
@@ -15,3 +16,4 @@ foreach {name value} [array get ::env] {
 
 ::ini::commit $fileout
 ::ini::close $fileout
+puts "wrote config file"

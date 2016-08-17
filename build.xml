@@ -8,19 +8,21 @@
   <property name="build" location="WEB-INF/classes"/>
   <property name="dist" location="dist"/>
   <property name="lib" location="WEB-INF/lib"/>
-  <property name="ivylib" location="WEB-INF/ivylib"/>
-  <property name="local-tomcat" location="/var/lib/tomcat7/webapps/acusticus"/>
+  <property name="local-tomcat" location="/var/lib/tomcat7/webapps"/>
   <property environment="env"/>
   
   <target name="dependencies" depends="init" description="load dependencies with ivy">
     <ivy:resolve />
-    <ivy:retrieve sync="true" type="jar,bundle" pattern="${ivylib}/[artifact]-[revision].[ext]" />
+    <ivy:retrieve sync="true" type="jar,bundle" pattern="${lib}/[artifact]-[revision].[ext]" />
   </target>
   
   <target name="init">
     <tstamp/>
     <delete dir="${build}/net" />
     <mkdir dir="${build}"/>
+    <!--configure -->
+    <exec executable="WEB-INF/config/config.env" />
+    <exec executable="WEB-INF/config/config.tcl" />
   </target>
 
   <target name="compile" depends="dependencies" description="compile the source">
@@ -37,15 +39,17 @@
     
   </target>
 
-  <target name="dist-local" depends="compile" description="Copy the application to tomcat">
-    <mkdir dir="${local-tomcat}"/>
-    <copy todir="${local-tomcat}">
-      <fileset dir="."/>
-    </copy>
-    <!--<copydir src="." dest="${local-tomcat}" />-->
-    <!--<exec executable="sudo" inputstring="${env.ACUSTICUS_SUDO_PWD}" failonerror="true">
-       <arg line="-S cp -r ./ ${local-tomcat}" />
-    </exec>-->
+  <target name="war" depends="compile" description="Bundle into a war file.">
+    <war destfile="acusticus.war" webxml="WEB-INF/web.xml">
+      <fileset dir="." >
+	<exclude name="acusticus.war" />
+      </fileset>
+    </war>
+  </target>
+  
+  <target name="dist-local" depends="war" description="Copy the application to tomcat">
+    
+    <copy file="acusticus.war" todir="${local-tomcat}" />
   </target>
 
 </project>
