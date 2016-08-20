@@ -26,11 +26,12 @@ public class AcusticusAPIActionBean implements ActionBean {
     public int getId(){ return id; }
     public void setId(int i){ this.id = i; }
     //misc
-    private Settings settings = Settings.getInstance();
+    private Settings settings;
 
     //handlers
     @DefaultHandler
     public Resolution version(){
+	settings = new Settings();
     	return new StreamingResolution("application/json", "{'name':'acusticus', 'version': '" + settings.VERSION + "'}");
     }
 

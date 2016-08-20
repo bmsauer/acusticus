@@ -1,31 +1,40 @@
 package net.sauertek.acusticus.settings;
 import org.ini4j.Wini;
-import java.io.File;
+import java.io.InputStream;
 import java.io.IOException;
-
+import org.apache.log4j.Logger;
 import java.lang.IllegalStateException;
 
 public class Settings {
     public String VERSION;
     public String REDIS_HOST;
     
-    private static Settings singleton = new Settings();
-
-    public static Settings getInstance(){
-	return singleton;
-    }
+    final static Logger logger = Logger.getRootLogger();
     
-    private Settings(){
+    public Settings(){
+	InputStream filein = null;
 	try{
-	    Wini ini = new Wini(new File("WEB-INF/config/config.ini"));
-	    REDIS_HOST = ini.get("acusticus", "REDIS_HOST", String.class);
-	    VERSION = ini.get("acusticus", "VERSION", String.class);
+	    //filein = context.getResourceAsStream("/WEB-INF/config/config.ini");
+	    filein = this.getClass().getClassLoader().getResourceAsStream("config/config.ini"); 
+	    Wini ini = new Wini(filein);
+	    REDIS_HOST = ini.get("acusticus", "ACUSTICUS_REDIS_HOST", String.class);
+	    VERSION = ini.get("acusticus", "ACUSTICUS_VERSION", String.class);
 	}
 	catch(IOException e){
-	    System.out.println("Failed to load configuration file.");
-	    REDIS_HOST="localhost";
-	    VERSION="1.0";
+	    logger.warn("Failed to load configuration file: " + e.getMessage());
+	    REDIS_HOST = "localhost";
+	    VERSION="0.0 :)";
+	}
+	finally{
+	    try{
+		if(filein != null){
+		    filein.close();
+		}
 	    }
+	    catch(IOException e){
+		logger.warn("Failure closing stream: " + e.getMessage());
+	    }
+	}
     }
  
     

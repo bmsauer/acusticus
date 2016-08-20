@@ -21,18 +21,15 @@
     <delete dir="${build}/net" />
     <mkdir dir="${build}"/>
     <!--configure -->
-    <exec executable="WEB-INF/config/config.env" />
+    <exec executable="WEB-INF/config/config.env" /> <!-- TODO: fix -->
     <exec executable="WEB-INF/config/config.tcl" />
   </target>
 
   <target name="compile" depends="dependencies" description="compile the source">
-    <javac srcdir="${src}" destdir="${build}" includeantruntime="false">
+    <javac srcdir="${src}" destdir="${build}" includeantruntime="false" debug="true">
       <classpath>
 	<fileset dir="${lib}">
 	  <include name="*.jar" />
-	</fileset>
-	<fileset dir="${ivylib}">
-          <include name="*.jar"/>
 	</fileset>
       </classpath>
     </javac>
