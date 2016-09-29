@@ -10,6 +10,7 @@
    </dependency>
    <dependency org="com.googlecode.json-simple" name="json-simple" rev="1.1.1"/>
    <dependency org="redis.clients" name="jedis" rev="2.8.0" />
+   <dependency org="com.fiftyonred" name="mock-jedis" rev="0.4.0"/>
    <dependency org="org.ini4j" name="ini4j" rev="0.5.4"/>
  </dependencies>
 </ivy-module>

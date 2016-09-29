@@ -1,5 +1,6 @@
 *~
 dev/*
+reports/*
 WEB-INF/classes
 WEB-INF/lib
 *.env

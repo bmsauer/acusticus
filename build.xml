@@ -5,9 +5,11 @@
   
   <!-- set global properties for this build -->
   <property name="src" location="src"/>
+  <property name="src.tests" location="${src}/tests" />
   <property name="build" location="WEB-INF/classes"/>
   <property name="dist" location="dist"/>
   <property name="lib" location="WEB-INF/lib"/>
+  <property name="reports" location="reports" />
   <property name="local-tomcat" location="/var/lib/tomcat7/webapps"/>
   <property environment="env"/>
   
@@ -33,9 +35,8 @@
 	</fileset>
       </classpath>
     </javac>
-    
   </target>
-
+ 
   <target name="war" depends="compile" description="Bundle into a war file.">
     <war destfile="acusticus.war" webxml="WEB-INF/web.xml">
       <fileset dir="." >
@@ -47,6 +48,27 @@
   <target name="dist-local" depends="war" description="Copy the application to tomcat">
     
     <copy file="acusticus.war" todir="${local-tomcat}" />
+  </target>
+
+  <target name="test" depends="compile" description="Run unit tests.">
+    <delete dir="${reports}" />
+    <mkdir dir="${reports}"/>
+    <junit>
+      <formatter type="plain" usefile="false" />
+      <formatter type="plain" usefile="true" />
+      <classpath>
+	<pathelement path="${build}"/>
+	<fileset dir="${lib}">
+	  <include name="**/*.jar" />
+	</fileset>
+      </classpath>
+
+      <batchtest fork="yes" haltonerror="true" todir="${reports}">
+	<fileset dir="${build}">
+	  <include name="**/*Test*.class" />
+	</fileset>
+      </batchtest>
+    </junit>
   </target>
 
 </project>

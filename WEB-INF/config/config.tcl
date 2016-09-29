@@ -6,7 +6,7 @@ package require inifile 0.3
 #based on environment.  It pulls variables from
 #system environment variables.
 
-set fileout [::ini::open [file dirname [info script]]/config.ini w]
+set fileout [::ini::open [file dirname [info script]]/../classes/config.ini w]
 
 foreach {name value} [array get ::env] {
     if {[string match ACUSTICUS_* $name]} then {

@@ -9,6 +9,9 @@ import net.sourceforge.stripes.action.ActionBeanContext;
 import net.sourceforge.stripes.action.UrlBinding;
 
 import net.sauertek.acusticus.settings.Settings;
+import net.sauertek.acusticus.record.Record;
+import net.sauertek.acusticus.record.RecordDaoRedis;
+import net.sauertek.acusticus.exceptions.RecordNotFoundException;
  
 /**
 * Acustic.us API
@@ -27,6 +30,7 @@ public class AcusticusAPIActionBean implements ActionBean {
     public void setId(int i){ this.id = i; }
     //misc
     private Settings settings;
+    private RecordDaoRedis recordDB;
 
     //handlers
     @DefaultHandler
@@ -38,7 +42,21 @@ public class AcusticusAPIActionBean implements ActionBean {
     public Resolution record(){
 	String method = this.getContext().getRequest().getMethod();
 	if(method.equals("GET")){
-	    return new StreamingResolution("application/json", "{'name':'record', 'id': '" + Integer.toString(getId()) + "'}");
+	    int id = getId();
+	    if(id > 0){
+		recordDB = new RecordDaoRedis();
+		Record record;
+		try{
+		    record = recordDB.getRecord(id);
+		}
+		catch (RecordNotFoundException e){
+		    return new StreamingResolution("text", "not found");
+		}
+		return new StreamingResolution("application/json", "{'album':'"+record.album+"', 'artist': '" +record.artist + "'}");
+	    }
+	    else{
+		return new StreamingResolution("text","not found");
+	    }
 	}
 	else if(method.equals("DELETE")){
 	    return new StreamingResolution("text", "delete");
