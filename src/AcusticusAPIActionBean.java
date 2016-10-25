@@ -58,7 +58,12 @@ public class AcusticusAPIActionBean implements ActionBean {
 		return new StreamingResolution("text","not found");
 	    }
 	}
-	else if(method.equals("DELETE")){
+	else if(method.equals("POST")){
+	    int id = getId();
+	    if(id == -1){
+		recordDB = new RecordDaoRedis();
+		Record record;
+	    }
 	    return new StreamingResolution("text", "delete");
 	}
 	else{

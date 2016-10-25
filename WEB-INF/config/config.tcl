@@ -16,4 +16,4 @@ foreach {name value} [array get ::env] {
 
 ::ini::commit $fileout
 ::ini::close $fileout
-puts "wrote config file [file dirname [info script]]/config.ini"
+puts "wrote config file [file dirname [info script]]/../classes/config.ini"
