@@ -2,3 +2,10 @@ Install
 jdk7
 Apache Ant
 Apache Ivy
+
+Config
+source WEB-INF/config/config.env
+tclsh WEB-INF/config/config.tcl
+
+Build/Deploy
+ant dist-local

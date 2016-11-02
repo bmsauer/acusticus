@@ -28,12 +28,12 @@ public class RecordDaoRedis implements RecordDao {
 	HashMap m = r.mapify();
 	long id = jedis.incr("acusticus:new_record_id");
 	m.put("id", String.valueOf(id));
-	jedis.hmset("record:"+Long.toString(id)+":obj", m);
+	jedis.hmset("record:obj:"+Long.toString(id), m);
 	return id;
     }
     
     public Record getRecord(int id) throws RecordNotFoundException{
-	Map<String,String> redis_record = jedis.hgetAll("record:"+Integer.toString(id)+":obj");
+	Map<String,String> redis_record = jedis.hgetAll("acusticus:record:obj:"+Integer.toString(id));
 	if(redis_record.isEmpty()){
 	    throw new RecordNotFoundException("Could not find record with id: " + String.valueOf(id));
 	}

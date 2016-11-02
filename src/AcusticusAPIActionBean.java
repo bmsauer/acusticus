@@ -8,6 +8,8 @@ import net.sourceforge.stripes.action.ActionBean;
 import net.sourceforge.stripes.action.ActionBeanContext;
 import net.sourceforge.stripes.action.UrlBinding;
 
+import org.apache.log4j.Logger;
+
 import net.sauertek.acusticus.settings.Settings;
 import net.sauertek.acusticus.record.Record;
 import net.sauertek.acusticus.record.RecordDaoRedis;
@@ -28,6 +30,8 @@ public class AcusticusAPIActionBean implements ActionBean {
     private int id;
     public int getId(){ return id; }
     public void setId(int i){ this.id = i; }
+    //logging
+    final static Logger logger = Logger.getRootLogger();
     //misc
     private Settings settings;
     private RecordDaoRedis recordDB;
@@ -62,9 +66,12 @@ public class AcusticusAPIActionBean implements ActionBean {
 	    int id = getId();
 	    if(id == -1){
 		recordDB = new RecordDaoRedis();
-		Record record;
+		Record record = new Record();
+		record.album = "Dark Horse";
+		record.artist = "George Harrison";
+		record.id = recordDB.putRecord(record);
 	    }
-	    return new StreamingResolution("text", "delete");
+	    return new StreamingResolution("text", "ok");
 	}
 	else{
 	    this.getContext().getResponse().setStatus(405);

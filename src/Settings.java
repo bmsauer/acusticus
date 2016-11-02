@@ -15,11 +15,7 @@ public class Settings {
     public Settings(){
 	InputStream filein = null;
 	try{
-	    //filein = context.getResourceAsStream("/WEB-INF/config/config.ini");
 	    filein = this.getClass().getClassLoader().getResourceAsStream("config.ini");
-	    //if(filein == null){
-	    //filein = new FileInputStream("WEB-INF/config/config.ini"); //for tests
-	    //}
 	    Wini ini = new Wini(filein);
 	    REDIS_HOST = ini.get("acusticus", "ACUSTICUS_REDIS_HOST", String.class);
 	    VERSION = ini.get("acusticus", "ACUSTICUS_VERSION", String.class);
@@ -27,7 +23,7 @@ public class Settings {
 	catch(IOException e){
 	    logger.warn("Failed to load configuration file: " + e.getMessage());
 	    REDIS_HOST = "localhost";
-	    VERSION="0.0 :)";
+	    VERSION="0.0 :(";
 	}
 	finally{
 	    try{
